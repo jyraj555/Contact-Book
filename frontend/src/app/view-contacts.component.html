@@ -1,0 +1,26 @@
+<h1>Your contacts</h1><p class="subtitle">Search, update or remove saved contacts.</p>
+<input class="search" type="search" [(ngModel)]="query" placeholder="Search by name, company, phone or email..." aria-label="Search contacts">
+<p *ngIf="loading" role="status">Loading contacts...</p>
+<p class="success" *ngIf="message" role="status">{{ message }}</p>
+<p class="error" *ngIf="error" role="alert">{{ error }} <button *ngIf="!editing && !deleting" (click)="load()">Retry</button></p>
+<p class="hint" *ngIf="!loading">{{ filtered.length }} contacts found</p>
+<div class="editor" *ngIf="editing as draft">
+<h2>Edit contact</h2><form #editForm="ngForm" (ngSubmit)="update(editForm)"><fieldset class="fields" [disabled]="busy">
+<input name="firstName" [(ngModel)]="draft.firstName" placeholder="First name *" aria-label="First name" required maxlength="100">
+<input name="lastName" [(ngModel)]="draft.lastName" placeholder="Last name" aria-label="Last name" maxlength="100">
+<input class="full-width" name="company" [(ngModel)]="draft.company" placeholder="Company" aria-label="Company" maxlength="150">
+<input name="mobile1" [(ngModel)]="draft.mobile1" type="tel" placeholder="Mobile number 1 *" aria-label="Mobile number 1" required maxlength="30">
+<input name="mobile2" [(ngModel)]="draft.mobile2" type="tel" placeholder="Mobile number 2" aria-label="Mobile number 2" maxlength="30">
+<input class="full-width" name="email" [(ngModel)]="draft.email" type="email" placeholder="Email address" aria-label="Email address" maxlength="254">
+</fieldset><div class="actions"><button type="submit" [disabled]="busy">{{ busy ? 'Saving...' : 'Save changes' }}</button><button type="button" (click)="cancel()" [disabled]="busy">Cancel</button></div></form></div>
+<div class="editor" *ngIf="deleting as target" role="region" aria-label="Confirm deletion">
+<h2>Delete {{ target.firstName }} {{ target.lastName }}?</h2><p>This permanently removes this contact.</p>
+<div class="actions"><button class="danger" (click)="remove()" [disabled]="busy">{{ busy ? 'Deleting...' : 'Confirm delete' }}</button><button (click)="cancel()" [disabled]="busy">Cancel</button></div></div>
+<p *ngIf="!loading && !error && !contacts.length">No contacts yet. <a routerLink="/add">Add your first contact</a>.</p>
+<p *ngIf="!loading && contacts.length && !filtered.length">No contacts match your search.</p>
+<ul class="contact-list"><li *ngFor="let c of filtered; trackBy: track" class="contact-row">
+<span class="avatar" aria-hidden="true">{{ initials(c) }}</span><div class="details"><strong>{{ c.firstName }} {{ c.lastName }}</strong>
+<p *ngIf="c.company || c.mobile1">{{ c.company }}<span *ngIf="c.company && c.mobile1"> ? </span><a *ngIf="c.mobile1" [href]="'tel:' + c.mobile1">{{ c.mobile1 }}</a></p>
+<p *ngIf="c.mobile2"><a [href]="'tel:' + c.mobile2">{{ c.mobile2 }}</a></p><p *ngIf="c.email"><a [href]="'mailto:' + c.email">{{ c.email }}</a></p></div>
+<div class="actions"><button (click)="edit(c)" [disabled]="busy" [attr.aria-label]="'Edit ' + c.firstName">Edit</button><button (click)="askDelete(c)" [disabled]="busy" [attr.aria-label]="'Delete ' + c.firstName">Delete</button></div>
+</li></ul>

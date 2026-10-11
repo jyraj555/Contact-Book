@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phonebook — Open App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 5vw;
+      background: #f3f4f6;
+      color: #1f2937;
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      width: min(100%, 560px);
+      padding: clamp(1rem, 4vw, 4rem);
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 6%);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    p { line-height: 1.6; }
+    a { display: inline-block; padding: 12px 20px; background: #1d4ed8; color: white; border-radius: 6px; text-decoration: none; }
+    a:focus-visible { outline: 3px solid #93c5fd; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Phonebook</h1>
+    <p>Open the running Angular app to save and view contacts.</p>
+    <a href="http://127.0.0.1:4200/">Open Phonebook</a>
+    <p>If the app cannot be reached, run <code>npm start</code> in both the <code>backend</code> and <code>frontend</code> folders, using separate terminals.</p>
+  </main>
+</body>
+</html>

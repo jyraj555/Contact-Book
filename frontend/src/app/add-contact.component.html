@@ -1,0 +1,17 @@
+<p *ngIf="false">This is an Angular template. <a href="http://127.0.0.1:4200/">Open Phonebook</a>.</p>
+<main class="add-page" hidden [hidden]="false">
+  <h1>Add Contact</h1>
+  <form #contactForm="ngForm" (ngSubmit)="save(contactForm)" (input)="clearFeedback()">
+    <fieldset [disabled]="saving" class="fields">
+      <input name="firstName" [(ngModel)]="contact.firstName" placeholder="First name *" aria-label="First name (required)" autocomplete="given-name" required maxlength="100">
+      <input name="lastName" [(ngModel)]="contact.lastName" placeholder="Last name" aria-label="Last name" autocomplete="family-name" maxlength="100">
+      <input class="full-width" name="company" [(ngModel)]="contact.company" placeholder="Company" aria-label="Company" autocomplete="organization" maxlength="150">
+      <input name="mobile1" [(ngModel)]="contact.mobile1" type="tel" placeholder="Mobile number 1 *" aria-label="Mobile number 1 (required)" autocomplete="section-primary tel" required maxlength="30">
+      <input name="mobile2" [(ngModel)]="contact.mobile2" type="tel" placeholder="Mobile number 2" aria-label="Mobile number 2" autocomplete="section-secondary tel" maxlength="30">
+      <input class="full-width" name="email" [(ngModel)]="contact.email" type="email" placeholder="Email address" aria-label="Email address" autocomplete="email" maxlength="254">
+    </fieldset>
+    <button type="submit" [disabled]="saving">{{ saving ? 'Submitting...' : 'Submit' }}</button>
+    <p *ngIf="success" class="success" role="status">{{ success }}</p>
+    <p *ngIf="saveError" class="error" role="alert">{{ saveError }}</p>
+  </form>
+</main>

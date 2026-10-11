@@ -1,0 +1,6 @@
+node_modules/
+.angular/
+dist/
+.npm-cache/
+*.log
+.env
