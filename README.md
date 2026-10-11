@@ -1,5 +1,8 @@
 # Contact-Book
 
+For the production build, Render configuration, MongoDB secrets and separate local
+development instructions, see [HOSTING.md](HOSTING.md).
+
 A learning project for the MEAN stack: MongoDB, Express, Angular and Node.js.
 
 ## Features
@@ -130,5 +133,5 @@ Manual check: add a disposable contact, find it on View Contacts, edit it, refre
 then try Cancel and Confirm delete. Build and database integration checks passed
 during development; automated visual browser testing was unavailable.
 
-The production build requires separate hosting and API routing configuration;
-the development proxy applies only to `npm start`.
+Production hosting uses Express to serve the Angular build and API together.
+The development proxy remains exclusive to the local Angular development server.

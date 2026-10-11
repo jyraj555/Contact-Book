@@ -1,8 +1,9 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
+const path = require('path');
 
 // Receive the database connection from server.js, so tests can use their own database.
-function createApp(db) {
+function createApp(db, { frontendDir } = {}) {
   const app = express();
   app.disable('x-powered-by');
   app.use(express.json({ limit: '10kb' }));
@@ -83,6 +84,22 @@ function createApp(db) {
       res.json({ message: 'Contact deleted.' });
     } catch (error) { next(error); }
   });
+  // Unknown API paths must never return Angular's HTML.
+  app.use('/api', (_req, res) => res.status(404).json({ message: 'API route not found.' }));
+  if (frontendDir) {
+    app.use(express.static(frontendDir, {
+      index: false,
+      setHeaders(res, file) {
+        res.set('Cache-Control', /\.[a-f0-9]{8,}\.(js|css)$/.test(file)
+          ? 'public, max-age=31536000, immutable' : 'no-cache');
+      }
+    }));
+    // Only page URLs fall back to Angular; missing assets remain real 404s.
+    app.get(['/', '/add', '/contacts'], (_req, res) => {
+      res.set('Cache-Control', 'no-cache');
+      res.sendFile(path.join(frontendDir, 'index.html'));
+    });
+  }
   app.use((_req, res) => res.status(404).json({ message: 'Route not found.' }));
   app.use((error, _req, res, _next) => {
     if (error.type === 'entity.parse.failed') {

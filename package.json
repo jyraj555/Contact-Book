@@ -1,0 +1,11 @@
+{
+  "name": "contact-book",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix frontend run build -- --configuration production",
+    "start": "node backend/src/server.js",
+    "test": "npm --prefix backend test",
+    "test:hosting": "node backend/test/hosting.js"
+  }
+}
